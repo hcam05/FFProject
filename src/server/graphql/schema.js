@@ -43,7 +43,7 @@ const PlayerType = new GraphQLObjectType({
             type: GraphQLInt,
             description: 'Season (ie. 2017)'
         },
-        week:{
+        week: {
             type: GraphQLInt,
             description: 'Week of the season (ie. 1,2,3)'
         },
@@ -234,7 +234,7 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve: (root, args) => {
                 return new Promise((resolve, reject) => {
-                    Player.find({ 'position': ['WR', 'QB', 'TE', 'RB', 'DEF'], 'weekPts': { $gt: '0' } })
+                    Player.find({ 'position': ['WR', 'QB', 'TE', 'RB', 'DEF'], 'weekPts': { $gt: '0' }, 'season': { season } })
                         .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
