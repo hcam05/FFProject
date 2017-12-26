@@ -39,6 +39,18 @@ const PlayerType = new GraphQLObjectType({
             type: GraphQLFloat,
             description: 'Total points this week'
         },
+        season: {
+            type: GraphQLInt,
+            description: 'Season (ie. 2017)'
+        },
+        week:{
+            type: GraphQLInt,
+            description: 'Week of the season (ie. 1,2,3)'
+        },
+        yrWkId: {
+            type: GraphQLInt,
+            description: 'Unique Id which is a combination of Year, Week, and Player Id'
+        },
         teammates: {
             type: new GraphQLList(PlayerType),
             description: 'List of Teammates',
