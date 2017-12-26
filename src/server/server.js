@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const webpackConfig = require('../../webpack.config.js');
 const app = express();
 const mcache = require('memory-cache');
-
+const path = require('path');
 // GRAPHQL DEPENDENCIES //
 const graphQLHTTP = require('express-graphql');
 const schema = require('./graphql/schema');
@@ -40,7 +40,9 @@ let cache = (duration) => {
 
 const compiler = webpack(webpackConfig);
  
-app.use(express.static(__dirname + '/www'));
+app.get('/', cache(10), (req, res) => {
+  res.sendFile(path.join(`${__dirname}/../../www/index.html`));
+});
 
 // GRAPHQL//
 app.use('/graphql', graphQLHTTP({
