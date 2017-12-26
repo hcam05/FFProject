@@ -138,11 +138,9 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve: (root, { name }, _, fieldASTs) => {
                 return new Promise((resolve, reject) => {
-                    // console.log(`name: ${name}`);
                     Player.find({ "name": name })
                         .exec()
                         .then(data => {
-                            // console.log(data);
                             data.forEach((x) => resolve(x));
                         })
                         .catch(errors => reject(errors))
@@ -173,6 +171,54 @@ const RootQuery = new GraphQLObjectType({
             resolve: (root, { position }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "position": position })
+                        .exec()
+                        .then(data => {
+                            resolve(data.filter((x) => x.weekPts > 0));
+                        })
+                        .catch(errors => reject(errors))
+                })
+            }
+        },
+        season: {
+            type: new GraphQLList(PlayerType),
+            args: {
+                season: { type: GraphQLInt }
+            },
+            resolve: (root, { season }) => {
+                return new Promise((resolve, reject) => {
+                    Player.find({ "season": season })
+                        .exec()
+                        .then(data => {
+                            resolve(data.filter((x) => x.weekPts > 0));
+                        })
+                        .catch(errors => reject(errors))
+                })
+            }
+        },
+        week: {
+            type: new GraphQLList(PlayerType),
+            args: {
+                week: { type: GraphQLInt }
+            },
+            resolve: (root, { week }) => {
+                return new Promise((resolve, reject) => {
+                    Player.find({ "week": week })
+                        .exec()
+                        .then(data => {
+                            resolve(data.filter((x) => x.weekPts > 0));
+                        })
+                        .catch(errors => reject(errors))
+                })
+            }
+        },
+        yrWkId: {
+            type: new GraphQLList(PlayerType),
+            args: {
+                yrWkId: { type: GraphQLInt }
+            },
+            resolve: (root, { yrWkId }) => {
+                return new Promise((resolve, reject) => {
+                    Player.find({ "yrWkId": yrWkId })
                         .exec()
                         .then(data => {
                             resolve(data.filter((x) => x.weekPts > 0));
