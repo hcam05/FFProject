@@ -8,7 +8,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-class Player extends React.Component {
+class PlayerStats extends React.Component {
 
     render() {
         const playerStats = this.props.data
@@ -47,4 +47,4 @@ class Player extends React.Component {
     }
 }
 
-export default Player;
+export default PlayerStats;
