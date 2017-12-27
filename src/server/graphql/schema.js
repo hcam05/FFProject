@@ -13,7 +13,7 @@ const Player = require('../../model/playerModel');
 //Player Type
 const PlayerType = new GraphQLObjectType({
     name: "Player",
-    description: 'Name of Fantasy Player',
+    description: 'Fantasy Football Player',
     fields: () => ({
         team: {
             type: GraphQLString,
@@ -134,11 +134,14 @@ const RootQuery = new GraphQLObjectType({
         player: {
             type: PlayerType,
             args: {
-                name: { type: GraphQLString }
+                name: { type: GraphQLString },
+                season: { type: GraphQLInt },
+                week: { type: GraphQLInt },
             },
-            resolve: (root, { name }, _, fieldASTs) => {
+            resolve: (root, { name, season, week }, _, fieldASTs) => {
                 return new Promise((resolve, reject) => {
-                    Player.find({ "name": name })
+                    Player.find({ "name": name, "season": season, "week": week })
+                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             data.forEach((x) => resolve(x));
@@ -155,6 +158,7 @@ const RootQuery = new GraphQLObjectType({
             resolve: (root, { team }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "team": team })
+                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             resolve(data);
@@ -166,11 +170,14 @@ const RootQuery = new GraphQLObjectType({
         position: {
             type: new GraphQLList(PlayerType),
             args: {
-                position: { type: GraphQLString }
+                position: { type: GraphQLString },
+                season: { type: GraphQLInt },
+                week: { type: GraphQLInt }
             },
-            resolve: (root, { position }) => {
+            resolve: (root, { position, season, week }) => {
                 return new Promise((resolve, reject) => {
-                    Player.find({ "position": position })
+                    Player.find({ "position": position, "season": season, "week": week })
+                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             resolve(data.filter((x) => x.weekPts > 0));
@@ -187,6 +194,7 @@ const RootQuery = new GraphQLObjectType({
             resolve: (root, { season }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "season": season })
+                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             resolve(data.filter((x) => x.weekPts > 0));
@@ -203,6 +211,7 @@ const RootQuery = new GraphQLObjectType({
             resolve: (root, { week }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "week": week })
+                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             resolve(data.filter((x) => x.weekPts > 0));
@@ -219,6 +228,7 @@ const RootQuery = new GraphQLObjectType({
             resolve: (root, { yrWkId }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "yrWkId": yrWkId })
+                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             resolve(data.filter((x) => x.weekPts > 0));
