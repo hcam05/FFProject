@@ -132,19 +132,22 @@ const RootQuery = new GraphQLObjectType({
 
     fields: () => ({
         player: {
-            type: PlayerType,
+            type: new GraphQLList(PlayerType),
             args: {
                 name: { type: GraphQLString },
-                season: { type: GraphQLInt },
-                week: { type: GraphQLInt },
+                season: { type: GraphQLInt }
             },
-            resolve: (root, { name, season, week }, _, fieldASTs) => {
+            resolve: (root, { name, season }, _, fieldASTs) => {
+                let result = [];
                 return new Promise((resolve, reject) => {
-                    Player.find({ "name": name, "season": season, "week": week })
-                        .sort({ 'weekPts': -1 })
+                    Player.find({ "name": name, "season": season })
+                        .sort({ 'week': 1 })
                         .exec()
                         .then(data => {
-                            data.forEach((x) => resolve(x));
+                            data.forEach((x) => {
+                                result.push(x);
+                                resolve(result);
+                            });
                         })
                         .catch(errors => reject(errors))
                 })
@@ -153,11 +156,13 @@ const RootQuery = new GraphQLObjectType({
         team: {
             type: new GraphQLList(PlayerType),
             args: {
-                team: { type: GraphQLString }
+                team: { type: GraphQLString },
+                season: { type: GraphQLInt },
+                week: { type: GraphQLInt },
             },
-            resolve: (root, { team }) => {
+            resolve: (root, { team, season, week }) => {
                 return new Promise((resolve, reject) => {
-                    Player.find({ "team": team })
+                    Player.find({ "team": team, "season": season, "week": week })
                         .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
@@ -172,9 +177,8 @@ const RootQuery = new GraphQLObjectType({
             args: {
                 position: { type: GraphQLString },
                 season: { type: GraphQLInt },
-                week: { type: GraphQLInt }
             },
-            resolve: (root, { position, season, week }) => {
+            resolve: (root, { position, season }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "position": position, "season": season, "week": week })
                         .sort({ 'weekPts': -1 })
@@ -221,7 +225,7 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         yrWkId: {
-            type: new GraphQLList(PlayerType),
+            type: PlayerType,
             args: {
                 yrWkId: { type: GraphQLInt }
             },
