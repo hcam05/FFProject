@@ -232,7 +232,6 @@ const RootQuery = new GraphQLObjectType({
             resolve: (root, { yrWkId }) => {
                 return new Promise((resolve, reject) => {
                     Player.find({ "yrWkId": yrWkId })
-                        .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
                             resolve(data.filter((x) => x.weekPts > 0));
