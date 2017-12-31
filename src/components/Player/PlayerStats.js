@@ -21,7 +21,8 @@ class PlayerStats extends React.Component {
             <TableRowColumn>{this.props.data[i].position}</TableRowColumn>
             <TableRowColumn>{this.props.data[i].team}</TableRowColumn>
             <TableRowColumn>{this.props.data[i].seasonPts}</TableRowColumn>
-            <TableRowColumn>{this.props.data[i].weekPts}%</TableRowColumn>
+            <TableRowColumn>{this.props.data[i].weekPts}</TableRowColumn>
+            <TableRowColumn>{this.props.data[i].week}</TableRowColumn>
           </TableRow>
         )
       }
@@ -36,6 +37,7 @@ class PlayerStats extends React.Component {
               <TableHeaderColumn>Team</TableHeaderColumn>
               <TableHeaderColumn>Season Points</TableHeaderColumn>
               <TableHeaderColumn>Week Points</TableHeaderColumn>
+              <TableHeaderColumn>Week</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody>
