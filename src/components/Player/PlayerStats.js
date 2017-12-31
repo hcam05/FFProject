@@ -12,6 +12,7 @@ class PlayerStats extends React.Component {
 
     render() {
         const playerStats = this.props.data
+        // console.log(this.props)
         const playerList = []
         if (this.props.data.length !== 0) {
             for (let i = this.props.start; i <= this.props.end; i++) {

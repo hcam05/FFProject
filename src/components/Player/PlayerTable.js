@@ -65,50 +65,55 @@ class PlayerTable extends React.Component {
         }
     }
 
-    getData() {
-        //connect to mongoDB
-        //query for default year and default week
-        //set state
-        console.log('v2 fired');
-        // return new Promise((resolve, reject) => {
-        //     Player.find({ 'season': 2017, 'week': 16 })
-        //         .sort({ 'weekPts': -1 })
-        //         .exec()
-        //         .then(data => {
-        //             this.setState(({players: data}))
-        //         })
-        //         .catch(err => reject(err));
-        // })
+    // getData() {
+    //     //connect to mongoDB
+    //     //query for default year and default week
+    //     //set state
+    //     console.log('v2 fired');
+    //     // return new Promise((resolve, reject) => {
+    //     //     Player.find({ 'season': 2017, 'week': 16 })
+    //     //         .sort({ 'weekPts': -1 })
+    //     //         .exec()
+    //     //         .then(data => {
+    //     //             this.setState(({players: data}))
+    //     //         })
+    //     //         .catch(err => reject(err));
+    //     // })
 
-        // axios.get(url).then(res => res.data.map(x => {
-        //     this.setState({ crypto: res.data });
-        // }));
-    }
+    //     // axios.get(url).then(res => res.data.map(x => {
+    //     //     this.setState({ crypto: res.data });
+    //     // }));
+    // }
 
-    filter() {
+    // filter() {
 
-    }
+    // }
 
     componentWillMount() {
-        // this.getData();
+        // if (!this.props.data.loading) {
+        //     console.log('set state');
+        //     this.setState({players: this.props.data.week});
+        // }
     }
 
-    
-    
+
+
     render() {
+        console.log(this.props);
+        
         return (
             <div>
                 <AppBar title="FFApp" style={{ backgroundColor: green800 }}>
                 </AppBar>
                 <br />
-                <PlayerStats data={this.state.crypto} start={this.state.start} end={this.state.end} />
+                {(this.props.data.loading) ? <div>Loading</div> : <PlayerStats data={this.props.data.week} start={this.state.start} end={this.state.end} /> }
                 <br />
                 <RaisedButton onClick={() => this.prevPg()}>Prev</RaisedButton>
                 <RaisedButton onClick={() => this.nextPg()}>Next</RaisedButton>
             </div>
 
-);
-}
+        );
+    }
 }
 //GRAPHQL QUERY
 const query = gql`
@@ -119,6 +124,8 @@ week(week: 16){
     position
     weekPts
     seasonPts
+    week
+    season
     }
 }
 `;
