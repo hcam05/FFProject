@@ -11,6 +11,11 @@ import { green800, green500, grey800 } from 'material-ui/styles/colors';
 import { Table } from 'material-ui/Table'
 import { TableBody } from 'material-ui/Table/TableBody';
 
+
+// GraphQL set up with react-apollo library
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
 // DATABASE CONNECTION
 // const mongoose = require('mongoose');
 // mongoose.Promise = global.Promise;
@@ -85,9 +90,11 @@ class PlayerTable extends React.Component {
     }
 
     componentWillMount() {
-        this.getData();
+        // this.getData();
     }
 
+    
+    
     render() {
         return (
             <div>
@@ -100,7 +107,21 @@ class PlayerTable extends React.Component {
                 <RaisedButton onClick={() => this.nextPg()}>Next</RaisedButton>
             </div>
 
-        );
+);
+}
+}
+//GRAPHQL QUERY
+const query = gql`
+{
+week(week: 16){
+    name
+    team
+    position
+    weekPts
+    seasonPts
     }
 }
-export default PlayerTable;
+`;
+
+// module.exports = graphql(query)(NflTable);
+export default graphql(query)(PlayerTable);
