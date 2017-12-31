@@ -14,7 +14,7 @@ const schema = require('./graphql/schema');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/nfl_api_data');
-mongoose.connection.once('open', () => {
+mongoose.connection.once(`useMongoClient`, () => {
   console.log('Connected to Database');
 });
 
