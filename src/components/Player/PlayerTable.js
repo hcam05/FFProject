@@ -31,7 +31,7 @@ class PlayerTable extends React.Component {
     this.state = {
       players: [],
       start: 0,
-      end: 9,
+      end: 49,
       year: 2017,
       week: 15,
     };
@@ -40,8 +40,8 @@ class PlayerTable extends React.Component {
   nextPg() {
     if (this.state.end < 99) {
       this.setState({
-        start: this.state.start + 10,
-        end: this.state.end + 10
+        start: this.state.start + 50,
+        end: this.state.end + 50
       });
     }
   }
@@ -49,8 +49,8 @@ class PlayerTable extends React.Component {
   prevPg() {
     if (this.state.start > 0) {
       this.setState({
-        start: this.state.start - 10,
-        end: this.state.end - 10
+        start: this.state.start - 50,
+        end: this.state.end - 50
       });
     }
   }
