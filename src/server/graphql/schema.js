@@ -210,11 +210,12 @@ const RootQuery = new GraphQLObjectType({
         week: {
             type: new GraphQLList(PlayerType),
             args: {
-                week: { type: GraphQLInt }
+                week: { type: GraphQLInt },
+                season: { type: GraphQLInt },
             },
-            resolve: (root, { week }) => {
+            resolve: (root, { week, season }) => {
                 return new Promise((resolve, reject) => {
-                    Player.find({ "week": week })
+                    Player.find({ "week": week, "season": season })
                         .sort({ 'weekPts': -1 })
                         .exec()
                         .then(data => {
