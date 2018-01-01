@@ -56,14 +56,18 @@ class PlayerTable extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.props.weekStats);
+
+    if (this.props.weekStats && this.props.weekStats.loading) return <div>Loading</div>;
+
+    if (this.props.weekStats && this.props.weekStats.error) return <div>Error</div>;
 
     return (
       <div>
         <AppBar title="FFApp" style={{ backgroundColor: green800 }}>
         </AppBar>
         <br />
-        {(this.props.data.loading) ? <div>Loading</div> : <PlayerStats data={this.props.data.week} start={this.state.start} end={this.state.end} />}
+        {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} /> : <div>Loading</div>}
         <br />
         <RaisedButton onClick={() => this.prevPg()}>Prev</RaisedButton>
         <RaisedButton onClick={() => this.nextPg()}>Next</RaisedButton>
@@ -75,7 +79,7 @@ class PlayerTable extends React.Component {
 //GRAPHQL QUERY
 const query = gql`
 {
-week(week: 16){
+week(week: 16, season: 2017){
     name
     team
     position
@@ -88,4 +92,4 @@ week(week: 16){
 `;
 
 // module.exports = graphql(query)(NflTable);
-export default graphql(query)(PlayerTable);
+export default graphql(query, { name: 'weekStats' })(PlayerTable);
