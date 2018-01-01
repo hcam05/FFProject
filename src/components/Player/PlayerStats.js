@@ -17,12 +17,12 @@ class PlayerStats extends React.Component {
       for (let i = this.props.start; i <= this.props.end; i++) {
         playerList.push(
           <TableRow key={this.props.data[i].id}>
-            <TableRowColumn>{this.props.data[i].name}</TableRowColumn>
-            <TableRowColumn>{this.props.data[i].position}</TableRowColumn>
-            <TableRowColumn>{this.props.data[i].team}</TableRowColumn>
-            <TableRowColumn>{this.props.data[i].seasonPts}</TableRowColumn>
-            <TableRowColumn>{this.props.data[i].weekPts}</TableRowColumn>
-            <TableRowColumn>{this.props.data[i].week}</TableRowColumn>
+            <TableRowColumn key={`${this.props.data[i].id}name`}>{this.props.data[i].name}</TableRowColumn>
+            <TableRowColumn key={`${this.props.data[i].id}position`}>{this.props.data[i].position}</TableRowColumn>
+            <TableRowColumn key={`${this.props.data[i].id}team`}>{this.props.data[i].team}</TableRowColumn>
+            <TableRowColumn key={`${this.props.data[i].id}seasonPts`}>{this.props.data[i].seasonPts}</TableRowColumn>
+            <TableRowColumn key={`${this.props.data[i].id}weekPts`}>{this.props.data[i].weekPts}</TableRowColumn>
+            <TableRowColumn key={`${this.props.data[i].id}week`}>{this.props.data[i].week}</TableRowColumn>
           </TableRow>
         )
       }
@@ -31,7 +31,7 @@ class PlayerStats extends React.Component {
       <div>
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow key='columnNames'>
               <TableHeaderColumn>Name</TableHeaderColumn>
               <TableHeaderColumn>Positon</TableHeaderColumn>
               <TableHeaderColumn>Team</TableHeaderColumn>
