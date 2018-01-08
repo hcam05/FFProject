@@ -33,7 +33,7 @@ class PlayerTable extends React.Component {
       start: 0,
       end: 49,
       year: 2017,
-      week: 15,
+      week: 16,
     };
   };
 
@@ -64,7 +64,7 @@ class PlayerTable extends React.Component {
 
     return (
       <div>
-        <AppBar title="FFApp" style={{ backgroundColor: green800 }}>
+        <AppBar title="Fantasy Football Dashboard " style={{ backgroundColor: green800 }}>
         </AppBar>
         <br />
         {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} /> : <div>Loading</div>}
