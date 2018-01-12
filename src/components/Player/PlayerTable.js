@@ -29,11 +29,18 @@ class PlayerTable extends React.Component {
   constructor() {
     super();
     this.state = {
-      players: [],
       start: 0,
       end: 49,
       year: 2017,
       week: 16,
+      positions: {
+        QB: true,
+        RB: true,
+        WR: true,
+        TE: true,
+        K: true,
+        DEF: true
+      },
     };
   };
 
@@ -50,7 +57,7 @@ class PlayerTable extends React.Component {
     if (this.state.start > 0) {
       this.setState({
         start: this.state.start - 50,
-        end: this.state.end - 50
+        end: this.state.end - 50,
       });
     }
   }
@@ -67,7 +74,7 @@ class PlayerTable extends React.Component {
         <AppBar title="Fantasy Football Dashboard " style={{ backgroundColor: green800 }}>
         </AppBar>
         <br />
-        {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} /> : <div>Loading</div>}
+        {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} key={this.props.weekStats.week[0].week}/> : <div>Loading</div>}
         <br />
         <RaisedButton onClick={() => this.prevPg()}>Prev</RaisedButton>
         <RaisedButton onClick={() => this.nextPg()}>Next</RaisedButton>
