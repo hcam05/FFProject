@@ -25,10 +25,10 @@ class PlayerTable extends React.Component {
   };
 
   nextPg() {
-    if (this.state.end < 99) {
+    if (this.state.end < this.props.weekStats.week.length) {
       this.setState({
         start: this.state.start + 50,
-        end: this.state.end + 50
+        end: (this.state.end + 50 > this.props.weekStats.week.length ? this.props.weekStats.week.length - 1 : this.state.end + 50)
       });
     }
   };
@@ -41,9 +41,9 @@ class PlayerTable extends React.Component {
       });
     }
   };
-
+  
   render() {
-    console.log(this.props.weekStats);
+    console.log(this.props.weekStats.week);
 
     if (this.props.weekStats && this.props.weekStats.loading) return <div>Loading</div>;
 
