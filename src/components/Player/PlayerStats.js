@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
 
 class PlayerStats extends React.Component {
+
 
   render() {
     const playerStats = this.props.data
@@ -16,35 +9,33 @@ class PlayerStats extends React.Component {
     if (this.props.data.length !== 0) {
       for (let i = this.props.start; i <= this.props.end; i++) {
         playerList.push(
-          <TableRow key={this.props.data[i].id}>
-            <TableRowColumn key={`${this.props.data[i].id}name`}>{this.props.data[i].name}</TableRowColumn>
-            <TableRowColumn key={`${this.props.data[i].id}position`}>{this.props.data[i].position}</TableRowColumn>
-            <TableRowColumn key={`${this.props.data[i].id}team`}>{this.props.data[i].team}</TableRowColumn>
-            <TableRowColumn key={`${this.props.data[i].id}seasonPts`}>{this.props.data[i].seasonPts}</TableRowColumn>
-            <TableRowColumn key={`${this.props.data[i].id}weekPts`}>{this.props.data[i].weekPts}</TableRowColumn>
-            <TableRowColumn key={`${this.props.data[i].id}week`}>{this.props.data[i].week}</TableRowColumn>
-          </TableRow>
+          <tr key={this.props.data[i].id}>
+            <td key={`${this.props.data[i].id}name`}>{this.props.data[i].name}</td>
+            <td key={`${this.props.data[i].id}position`}>{this.props.data[i].position}</td>
+            <td key={`${this.props.data[i].id}team`}>{this.props.data[i].team}</td>
+            <td key={`${this.props.data[i].id}seasonPts`}>{this.props.data[i].seasonPts}</td>
+            <td key={`${this.props.data[i].id}weekPts`}>{this.props.data[i].weekPts}</td>
+            <td key={`${this.props.data[i].id}week`}>{this.props.data[i].week}</td>
+          </tr>
         )
       }
     }
     return (
-      <div>
-        <Table>
-          <TableHeader>
-            <TableRow key='columnNames'>
-              <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Positon</TableHeaderColumn>
-              <TableHeaderColumn>Team</TableHeaderColumn>
-              <TableHeaderColumn>Season Points</TableHeaderColumn>
-              <TableHeaderColumn>Week Points</TableHeaderColumn>
-              <TableHeaderColumn>Week</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {playerList}
-          </TableBody>
-        </Table>
-      </div>
+      <table key='playertable'>
+        <thead>
+          <tr key='columnNames'>
+            <th key='name'>Name</th>
+            <th key='position'>Positon</th>
+            <th key='team'>Team</th>
+            <th key='season-points'>Season Points</th>
+            <th key='week-points'>Week Points</th>
+            <th key='week'>Week</th>
+          </tr>
+        </thead>
+        <tbody>
+          {playerList}
+        </tbody>
+      </table>
     )
   }
 }
