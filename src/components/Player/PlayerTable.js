@@ -19,8 +19,12 @@ class PlayerTable extends React.Component {
         WR: true,
         TE: true,
         K: true,
-        DEF: true
+        DEF: true,
+        LB: true,
+        DB: true,
+        DL: true,
       },
+      showAll: false,
     };
   };
 
@@ -41,7 +45,24 @@ class PlayerTable extends React.Component {
       });
     }
   };
-  
+
+  showAll() {
+    if (this.state.showAll === false) {
+      this.setState({
+        start: 0,
+        end: this.props.weekStats.week.length - 1,
+        showAll: true,
+      })
+    } else {
+      this.setState({
+        start: 0,
+        end: 49,
+        showAll: false,
+      })
+    }
+  }
+
+
   render() {
     console.log(this.props.weekStats.week);
 
@@ -52,11 +73,13 @@ class PlayerTable extends React.Component {
     return (
       <div>
         <div>Fantasy Football Dashboard</div>
+        <div></div>
         <br />
-          {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} key={this.props.weekStats.week[0].week} /> : <div>Loading</div>}
-          <br />
+        {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} key={this.props.weekStats.week[0].week} /> : <div>Loading</div>}
+        <br />
         <button onClick={() => this.prevPg()}>Prev</button>
         <button onClick={() => this.nextPg()}>Next</button>
+        <button onClick={() => this.showAll()}>Show All</button>
       </div>
 
     );

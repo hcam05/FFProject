@@ -2,7 +2,6 @@ import React from 'react';
 
 class PlayerStats extends React.Component {
 
-
   render() {
     const playerStats = this.props.data
     const playerList = []
