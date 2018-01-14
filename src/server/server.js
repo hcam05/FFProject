@@ -6,17 +6,6 @@ const webpackConfig = require('../../webpack.config.js');
 const app = express();
 const mcache = require('memory-cache');
 const path = require('path');
-// GRAPHQL DEPENDENCIES //
-const graphQLHTTP = require('express-graphql');
-const schema = require('./graphql/schema');
-
-// DATABASE CONNECTION
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/nfl_api_data');
-mongoose.connection.once(`useMongoClient`, () => {
-  console.log('Connected to Database');
-});
 
 //CACHE//
 let cache = (duration) => {
@@ -43,12 +32,6 @@ const compiler = webpack(webpackConfig);
 app.get('/', cache(10), (req, res) => {
   res.sendFile(path.join(`${__dirname}/../../www/index.html`));
 });
-
-// GRAPHQL//
-app.use('/graphql', graphQLHTTP({
-  schema,
-  graphiql: true,
-}));
 
 app.use(webpackDevMiddleware(compiler, {
   hot: true,
