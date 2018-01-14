@@ -5,17 +5,18 @@ const PlayerControl = (props) => {
   return (
     <div>
       Filter Position
-      <button onClick={this.selectQB}>QB</button>
-      <button onClick={this.selectRB}>RB</button>
-      <button onClick={this.selectWR}>WR</button>
-      <button onClick={this.selectTE}>TE</button>
-      <button onClick={this.selectDEF}>DEF</button>
-      <button onClick={this.selectK}>K</button>
-      <button onClick={this.selectK}>LB</button>
-      <button onClick={this.selectK}>DB</button>
-      <button onClick={this.selectK}>DL</button>
+      <button onClick={() => props.filterTable('QB')}>QB</button>
+      <button onClick={() => props.filterTable('RB')}>RB</button>
+      <button onClick={() => props.filterTable('WR')}>WR</button>
+      <button onClick={() => props.filterTable('TE')}>TE</button>
+      <button onClick={() => props.filterTable('DEF')}>DEF</button>
+      <button onClick={() => props.filterTable('K')}>K</button>
+      <button onClick={() => props.filterTable('LB')}>LB</button>
+      <button onClick={() => props.filterTable('DB')}>DB</button>
+      <button onClick={() => props.filterTable('DL')}>DL</button>
     </div>
   )
 
-
 }
+
+export default PlayerControl;
