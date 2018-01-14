@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import PlayerStats from './PlayerStats';
+import PlayerControl from './PlayerControl';
 
-// GraphQL set up with react-apollo library
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 class PlayerTable extends React.Component {
   constructor() {
     super();
     this.state = {
+      players: [],
       start: 0,
       end: 49,
       year: 2017,
@@ -28,11 +27,38 @@ class PlayerTable extends React.Component {
     };
   };
 
+  componentDidMount() {
+    const allPlayers = []
+    const nflApiUrlSeason = `http://api.fantasy.nfl.com/v1/players/stats?statType=weekStats&season=${this.state.year}&week=${this.state.week}&format=json`;
+    console.log(`getting data ${nflApiUrlSeason}`);
+    fetch(nflApiUrlSeason)
+      .then((resp) => resp.json())
+      .then((data) => {
+        data.players.forEach((x) => {
+          const plyr = {};
+          plyr.id = x.id;
+          plyr.name = x.name;
+          plyr.position = x.position;
+          plyr.team = x.teamAbbr;
+          plyr.seasonPts = x.seasonPts;
+          plyr.weekPts = x.weekPts;
+          plyr.season = this.state.season;
+          plyr.week = this.state.week;
+          plyr.yrWkId = this.state.season + '' + this.state.week + '' + x.id;
+          allPlayers.push(plyr);
+        })
+        console.log(`in setstate`);
+        this.setState({
+          players: allPlayers
+        });
+      })
+  }
+
   nextPg() {
-    if (this.state.end < this.props.weekStats.week.length) {
+    if (this.state.end < this.state.players.length - 1) {
       this.setState({
         start: this.state.start + 50,
-        end: (this.state.end + 50 > this.props.weekStats.week.length ? this.props.weekStats.week.length - 1 : this.state.end + 50)
+        end: (this.state.end + 50 > this.state.players.length - 1 ? this.state.players.length - 1 : this.state.end + 50)
       });
     }
   };
@@ -50,7 +76,7 @@ class PlayerTable extends React.Component {
     if (this.state.showAll === false) {
       this.setState({
         start: 0,
-        end: this.props.weekStats.week.length - 1,
+        end: this.state.players.length - 1,
         showAll: true,
       })
     } else {
@@ -62,44 +88,39 @@ class PlayerTable extends React.Component {
     }
   }
 
+  filterTable(pos) {
+    //take text of button and filters
+    console.log(`filter func: ${pos}`);
+    console.log(this.state.positions);
+    // if(this.state.positions.pos === true){
+    //   this.setState({positions.pos: false})
+    // }else{
+    //   this.setState({positions.pos: true});
+    // }
+  }
 
   render() {
-    console.log(this.props.weekStats.week);
 
-    if (this.props.weekStats && this.props.weekStats.loading) return <div>Loading</div>;
-
-    if (this.props.weekStats && this.props.weekStats.error) return <div>Error</div>;
+    if (this.state.players.length < 1) return <div>Loading</div>;
 
     return (
       <div>
         <div>Fantasy Football Dashboard</div>
-        <div></div>
+        <div>
+          <button onClick={() => this.showAll()}>Show All</button>
+        </div>
+        <div>
+          <PlayerControl filterTable={(pos) => this.filterTable(pos)} />
+        </div>
         <br />
-        {(this.props.weekStats.week) ? <PlayerStats data={this.props.weekStats.week} start={this.state.start} end={this.state.end} key={this.props.weekStats.week[0].week} /> : <div>Loading</div>}
+        <PlayerStats data={this.state.players} start={this.state.start} end={this.state.end} />
         <br />
         <button onClick={() => this.prevPg()}>Prev</button>
         <button onClick={() => this.nextPg()}>Next</button>
-        <button onClick={() => this.showAll()}>Show All</button>
       </div>
 
     );
   }
 }
-//GRAPHQL QUERY
-const query = gql`
-{
-week(week: 16, season: 2017){
-    name
-    team
-    position
-    weekPts
-    seasonPts
-    week
-    season
-    id
-    }
-}
-`;
 
-// module.exports = graphql(query)(NflTable);
-export default graphql(query, { name: 'weekStats' })(PlayerTable);
+export default PlayerTable;
